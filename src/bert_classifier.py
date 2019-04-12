@@ -190,10 +190,14 @@ tokenizer = create_tokenizer_from_hub_module()
 train_examples = None
 num_train_steps = None
 if args['do_train']:
-    train_examples = processor.get_train_examples(args['full_data_dir'], size=args['train_size'])
+    train_examples = processor.get_train_examples(args['full_data_dir'], size=10)
     #     train_examples = processor.get_train_examples(args['data_dir'], size=args['train_size'])
     num_train_steps = int(len(train_examples) / args['train_batch_size'] / args['gradient_accumulation_steps']
                           * args['num_train_epochs'])
+
+
+train_features = processor.convert_examples_to_features(train_examples, label_list, args['max_seq_length'], tokenizer)
+print(train_features)
 # data_c = DataHandler()
 # train = data_c.load_train_data()
 # train = data_c.add_label_column(train)
